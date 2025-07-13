@@ -1,7 +1,7 @@
 #key pair
 resource aws_key_pair my_key{
   key_name = "ec2-key"
-  public_key = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPOC1YIWMB+0vB+FJsk880FytvH7lDgmicwOygMjeNbH surya@surya
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPOC1YIWMB+0vB+FJsk880FytvH7lDgmicwOygMjeNbH surya@surya"
 }
 
 #VPC and  security group
@@ -10,10 +10,12 @@ resource aws_default_vpc default {
 
 }
 
+
 resource aws_security_group my_security_group {
     name = "adding security group"
     description = "using tf we are adding the vpc and security group which are added during the creation of ec2 instances automatically"
     vpc_id = aws_default_vpc.default.id # this is known as interpolation
+    
 
     #inbound rules
     ingress{
@@ -47,7 +49,6 @@ resource aws_security_group my_security_group {
         description = "outbound open to all "
     }
 
-
     tags = {
         Name = "sg"        
     }
@@ -56,10 +57,9 @@ resource aws_security_group my_security_group {
 
 resource "aws_instance" "my_instance"{
     key_name = aws_key_pair.my_key.key_name
-    security_groups = [aws_security_group.my_security_group.name]
+    security_groups = [aws_security_group.my_security_group.name]    # check kro isko ek baar 
     instance_type = "t2.micro"
-    ami = ami-01f23391a59163da9  # ubuntu 
-
+    ami = "ami-046070fb756e4377e"  
     root_block_device {
         volume_size = 15
         volume_type = "gp3"
@@ -70,3 +70,6 @@ resource "aws_instance" "my_instance"{
     }
 
 }
+
+
+
