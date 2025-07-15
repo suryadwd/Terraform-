@@ -57,7 +57,7 @@ resource "aws_instance" "my_instance"{
     security_groups = [aws_security_group.my_security_group.name]    # check kro isko ek baar 
     instance_type = var.ec2_instance_type
     ami = var.ec2_ami_id
-    user_data = file("ngnix.sh")
+    user_data = file("nginx.sh")
     root_block_device {
         volume_size = var.ec2_storage_size
         volume_type = "gp3"
