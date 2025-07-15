@@ -59,13 +59,15 @@ resource "aws_instance" "my_instance"{
         tws-suraj-instance = "t2.micro"
         tws-anuj-instance = "t2.micro"
     })
+    depends_on = [ aws_security_group.my_security_group ]
     security_groups = [aws_security_group.my_security_group.name]    # check kro isko ek baar 
     # instance_type = var.ec2_instance_type
     instance_type = each.value
     ami = var.ec2_ami_id
     user_data = file("nginx.sh")
     root_block_device {
-        volume_size = var.ec2_storage_size
+        # volume_size = var.ec2_storage_size
+        volume_size = var.env == "prod" ? 25 : var.ec2_default_storage_size
         volume_type = "gp3"
     }
     tags = {
@@ -80,3 +82,7 @@ resource "aws_instance" "my_instance"{
 # for each it is just  key-pair format and teh key and values can be used as interpolation  but using the each.value and each.key 
 # while using meat character in coount we have added [*] but for_each we dont use it 
 
+# depends_on just like docker after what we will run this 
+
+
+# we are also having conditional formatting as in react 
