@@ -54,9 +54,14 @@ resource aws_security_group my_security_group {
 
 resource "aws_instance" "my_instance"{
     key_name = aws_key_pair.my_key.key_name
-    count = 2
+    # count = 2
+    for_each = tomap({
+        tws-suraj-instance = "t2.micro"
+        tws-anuj-instance = "t2.micro"
+    })
     security_groups = [aws_security_group.my_security_group.name]    # check kro isko ek baar 
-    instance_type = var.ec2_instance_type
+    # instance_type = var.ec2_instance_type
+    instance_type = each.value
     ami = var.ec2_ami_id
     user_data = file("nginx.sh")
     root_block_device {
@@ -64,9 +69,14 @@ resource "aws_instance" "my_instance"{
         volume_type = "gp3"
     }
     tags = {
-        Name = "terraform-ec2-instance"
+        # Name = "terraform-ec2-instance"
+        Name = each.key
     }
 }
 
 
+# count  is a meta keyword and number of element in the coount is teh number of inctance that will create but the problem is about the same name of each element to tackel this we  are having for each\
+
+# for each it is just  key-pair format and teh key and values can be used as interpolation  but using the each.value and each.key 
+# while using meat character in coount we have added [*] but for_each we dont use it 
 
