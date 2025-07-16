@@ -86,3 +86,5 @@ resource "aws_instance" "my_instance"{
 
 
 # we are also having conditional formatting as in react 
+
+# now going to learn teh tfstate using the s3 and dynamodb for secure tfstate file usage
