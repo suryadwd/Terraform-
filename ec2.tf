@@ -59,7 +59,7 @@ resource "aws_instance" "my_instance"{
         tws-suraj-instance = "t2.micro"
         tws-anuj-instance = "t2.micro"
     })
-    depends_on = [ aws_security_group.my_security_group ]
+    depends_on = [ aws_security_group.my_security_group]
     security_groups = [aws_security_group.my_security_group.name]    # check kro isko ek baar 
     # instance_type = var.ec2_instance_type
     instance_type = each.value
